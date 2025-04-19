@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>NoUTM Configuration</title>
+  <style>
+    body {
+      width: 400px;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .parameter-list {
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .parameter-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px;
+      border-bottom: 1px solid #eee;
+    }
+    .parameter-item:last-child {
+      border-bottom: none;
+    }
+    .add-parameter {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 5px;
+    }
+    button {
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .delete-btn {
+      background-color: #f44336;
+    }
+    .delete-btn:hover {
+      background-color: #da190b;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .save-btn {
+      flex: 1;
+      padding: 10px;
+    }
+    .reset-btn {
+      padding: 10px;
+      background-color: #ff9800;
+    }
+    .reset-btn:hover {
+      background-color: #f57c00;
+    }
+    .domain-section {
+      margin-top: 20px;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+    .domain-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .domain-input {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .domain-input input {
+      flex: 1;
+    }
+    .domain-list {
+      margin-top: 10px;
+    }
+    .domain-item {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+    .domain-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+    }
+    .domain-name {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>NoUTM Configuration</h2>
+  
+  <div class="section">
+    <h3>Global Parameters</h3>
+    <div id="globalParameters" class="parameter-list"></div>
+    <div class="add-parameter">
+      <input type="text" id="newGlobalParam" placeholder="Add new global parameter">
+      <button id="addGlobalBtn">Add</button>
+    </div>
+  </div>
+
+  <div class="domain-section">
+    <div class="domain-header">
+      <h3>Domain-Specific Parameters</h3>
+    </div>
+    <div class="domain-input">
+      <input type="text" id="newDomain" placeholder="Add new domain (e.g., *://*.example.com)">
+      <button id="addDomainBtn">Add Domain</button>
+    </div>
+    <div id="domainList" class="domain-list"></div>
+  </div>
+
+  <div class="button-group">
+    <button id="saveBtn" class="save-btn">Save Configuration</button>
+    <button id="resetBtn" class="reset-btn">Reset to Default</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html> 
