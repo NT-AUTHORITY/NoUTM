@@ -1,0 +1,44 @@
+name: Build and Upload CRX
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_crx:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 检出代码
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 获取短提交哈希
+    - name: Get Short Commit Hash
+      id: vars
+      run: echo "SHORT_COMMIT=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV
+
+    # 使用私钥生成 CRX 文件
+    - name: Build CRX file
+      env:
+        PEM_SECRET: ${{ secrets.PEM_SECRET }}
+      run: |
+        openssl base64 -d -out private.pem <<< "$PEM_SECRET"
+        REPO_NAME="NoUTM" # 手动设置仓库名，避免获取错误
+        OUTPUT_FILE="${REPO_NAME}_${SHORT_COMMIT}.crx"
+        zip -r "$OUTPUT_FILE" ./src ./src/manifest.json
+
+    # 合并 /utilities 中的文件与生成的 CRX 文件
+    - name: Merge utilities and CRX
+      run: |
+        mkdir -p publish
+        cp NoUTM_*.crx publish/
+        cp -r utilities/* publish/
+
+    # 上传工件并动态命名
+    - name: Upload publish folder
+      uses: actions/upload-artifact@v4
+      with:
+        name: NoUTM_${{ env.SHORT_COMMIT }}
+        path: publish/
