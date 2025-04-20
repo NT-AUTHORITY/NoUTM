@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    background: './background.js',
-    popup: './popup.js'
+    background: path.resolve(__dirname, 'background.js'),
+    popup: path.resolve(__dirname, 'popup.js')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -33,13 +33,13 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: 'config.json', to: 'config.json' },
-        { from: '../manifest.json', to: 'manifest.json' },
-        { from: '../icons', to: 'icons' }
+        { from: path.resolve(__dirname, 'config.json'), to: 'config.json' },
+        { from: path.resolve(__dirname, '../manifest.json'), to: 'manifest.json' },
+        { from: path.resolve(__dirname, '../icons'), to: 'icons' }
       ]
     }),
     new HtmlWebpackPlugin({
-      template: './popup.html',
+      template: path.resolve(__dirname, 'popup.html'),
       filename: 'popup.html',
       chunks: ['popup']
     })
