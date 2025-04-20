@@ -65,6 +65,9 @@ jobs:
           google-chrome --pack-extension=src --pack-extension-key=key.pem
           mv src.crx ${repo_name}_${commit_id}.crx
 
+      - name: Verify CRX File
+        run: ls -l
+
       - name: Upload CRX artifact
         uses: actions/upload-artifact@v4
         with:
