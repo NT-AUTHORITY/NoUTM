@@ -14,7 +14,7 @@ A Chrome extension that automatically removes tracking parameters from URLs to p
 
 ### From Microsoft Edge Addons [NOT available]
 1. Visit the [Microsoft Edge Addons]()
-2. Click "Add to Chrome"
+2. Click "Add to Edge"
 3. Confirm the installation
 
 ### Manual Installation
@@ -49,35 +49,6 @@ NoUTM is designed with privacy in mind:
 - Works entirely locally in your browser
 
 For more information, see our [Privacy Policy](PRIVACY.md).
-
-## Development
-
-### Prerequisites
-- Node.js 18 or later
-- npm
-
-### Setup
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/NT-AUTHORITY/NoUTM.git
-   cd NoUTM
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Build the extension:
-   ```bash
-   npm run build
-   ```
-
-### Development Mode
-Run the following command to start development mode with hot reloading:
-```bash
-npm run dev
-```
 
 ## Contributing
 
