@@ -64,6 +64,9 @@ jobs:
           echo "$PEM_SECRET" > key.pem
           google-chrome --pack-extension=src --pack-extension-key=key.pem
 
+      - name: Verify CRX Generation
+        run: cat src/*.crx || echo "CRX not found!"
+
       - name: Upload all CRX files
         uses: actions/upload-artifact@v4
         with:
