@@ -175,10 +175,28 @@ async function initializeExtension() {
   });
 
   // Handle context menu clicks
-  chrome.contextMenus.onClicked.addListener((info, tab) => {oUTM
+  chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "about") {
       chrome.tabs.create({
         url: "https://github.com/NT-AUTHORITY/NoUTM/tree/v1.0.0"
+      });
+    }
+  });
+
+  // 创建右键菜单
+  chrome.runtime.onInstalled.addListener(() => {
+    chrome.contextMenus.create({
+      id: 'privacy-policy',
+      title: 'Privacy Policy',
+      contexts: ['action']
+    });
+  });
+
+  // 处理右键菜单点击
+  chrome.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId === 'privacy-policy') {
+      chrome.tabs.create({
+        url: 'https://github.com/NT-AUTHORITY/NoUTM/blob/main/PRIVACY.md'
       });
     }
   });
