@@ -51,11 +51,10 @@ jobs:
           path: .
 
       - name: Generate commit short identifier
-        id: commit
-        run: echo "commit_id=$(git rev-parse --short HEAD)" >> "$GITHUB_ENV"
+        run: echo "COMMIT_ID=$(git rev-parse --short HEAD)" >> "$GITHUB_ENV"
 
       - name: Get repository name
-        run: echo "repo_name=$(basename '${{ github.repository }}')" >> "$GITHUB_ENV"
+        run: echo "REPO_NAME=$(basename '${{ github.repository }}')" >> "$GITHUB_ENV"
 
       - name: Generate CRX
         env:
@@ -63,18 +62,13 @@ jobs:
         run: |
           echo "$PEM_SECRET" > key.pem
           google-chrome --pack-extension=src --pack-extension-key=key.pem
+          mv src.crx ${REPO_NAME}_${COMMIT_ID}.crx
 
-      - name: Debug CRX Output
-        run: ls -lR src
+      - name: Verify CRX File
+        run: ls -l
 
-      - name: Debug All Files
-        run: ls -lR  
-
-      - name: Verify CRX Generation
-        run: cat src/*.crx || echo "CRX not found!"
-
-      - name: Upload all CRX files
+      - name: Upload CRX artifacts
         uses: actions/upload-artifact@v4
         with:
           name: crx-extensions
-          path: src/*.crx
+          path: "${REPO_NAME}_${COMMIT_ID}.crx"
