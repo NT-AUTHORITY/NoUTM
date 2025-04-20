@@ -64,6 +64,12 @@ jobs:
           echo "$PEM_SECRET" > key.pem
           google-chrome --pack-extension=src --pack-extension-key=key.pem
 
+      - name: Debug CRX Output
+        run: ls -lR src
+
+      - name: Debug All Files
+        run: ls -lR  
+
       - name: Verify CRX Generation
         run: cat src/*.crx || echo "CRX not found!"
 
