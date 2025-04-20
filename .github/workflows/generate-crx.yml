@@ -1,6 +1,7 @@
 name: Build and Upload CRX
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -17,7 +18,9 @@ jobs:
     # 获取短提交哈希
     - name: Get Short Commit Hash
       id: vars
-      run: echo "SHORT_COMMIT=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV
+      run: |
+        SHORT_COMMIT=$(git rev-parse --short=6 HEAD)
+        echo "SHORT_COMMIT=$SHORT_COMMIT" >> $GITHUB_ENV
 
     # 使用私钥生成 CRX 文件
     - name: Build CRX file
@@ -27,14 +30,19 @@ jobs:
         openssl base64 -d -out private.pem <<< "$PEM_SECRET"
         REPO_NAME="NoUTM" # 手动设置仓库名，避免获取错误
         OUTPUT_FILE="${REPO_NAME}_${SHORT_COMMIT}.crx"
-        zip -r "$OUTPUT_FILE" ./src ./src/manifest.json
+        cd src
+        zip -r "$OUTPUT_FILE" ./* # 仅打包 src 目录的内容
+        mv "$OUTPUT_FILE" ../ # 将生成的 CRX 文件移回根目录
+        cd ..
 
     # 合并 /utilities 中的文件与生成的 CRX 文件
     - name: Merge utilities and CRX
       run: |
         mkdir -p publish
-        cp NoUTM_*.crx publish/
-        cp -r utilities/* publish/
+        cp "NoUTM_${SHORT_COMMIT}.crx" publish/
+        if [ -d "utilities" ]; then
+          cp -r utilities/* publish/
+        fi
 
     # 上传工件并动态命名
     - name: Upload publish folder
