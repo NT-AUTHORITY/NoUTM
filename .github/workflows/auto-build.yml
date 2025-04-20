@@ -71,4 +71,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: crx-extensions
-          path: "${REPO_NAME}_${COMMIT_ID}.crx"
+          path: "*.crx"
