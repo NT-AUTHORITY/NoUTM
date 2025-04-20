@@ -27,7 +27,7 @@ jobs:
         working-directory: ./src
 
       - name: Package extension as ZIP
-        run: zip -r extension.zip ./src
+        run: zip -r extension.zip ./src/dist
 
       - name: Upload ZIP artifact
         uses: actions/upload-artifact@v4
@@ -58,8 +58,8 @@ jobs:
           PEM_SECRET: ${{ secrets.PEM_SECRET }}
         run: |
           echo "$PEM_SECRET" > key.pem
-          google-chrome --pack-extension=./src --pack-extension-key=key.pem
-          mv ./src.crx ${repo_name}_${commit_id}.crx
+          google-chrome --pack-extension=./src/dist --pack-extension-key=key.pem
+          mv ./src/dist.crx ${repo_name}_${commit_id}.crx
 
       - name: Upload CRX artifact
         uses: actions/upload-artifact@v4
