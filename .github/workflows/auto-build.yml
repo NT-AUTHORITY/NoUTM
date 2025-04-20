@@ -1,0 +1,68 @@
+name: Build and Package CRX Extension
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./src
+
+      - name: Build extension
+        run: npm run build
+        working-directory: ./src
+
+      - name: Package extension as ZIP
+        run: zip -r extension.zip ./src
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-package
+          path: extension.zip
+
+  crx:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download built extension
+        uses: actions/download-artifact@v4
+        with:
+          name: extension-package
+          path: .
+
+      - name: Generate commit short identifier
+        id: commit
+        run: echo "commit_id=$(git rev-parse --short HEAD)" >> "$GITHUB_ENV"
+
+      - name: Get repository name
+        id: repo
+        run: echo "repo_name=${{ github.repository }}" | awk -F'/' '{print $2}' >> "$GITHUB_ENV"
+
+      - name: Generate CRX
+        env:
+          PEM_SECRET: ${{ secrets.PEM_SECRET }}
+        run: |
+          echo "$PEM_SECRET" > key.pem
+          google-chrome --pack-extension=./src --pack-extension-key=key.pem
+          mv ./src.crx ${repo_name}_${commit_id}.crx
+
+      - name: Upload CRX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: crx-extension
+          path: ${repo_name}_${commit_id}.crx
