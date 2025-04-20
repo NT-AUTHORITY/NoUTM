@@ -33,9 +33,9 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: path.resolve(__dirname, 'config.json'), to: 'src/src/config.json' },
-        { from: path.resolve(__dirname, 'manifest.json'), to: 'src/manifest.json' },
-        { from: path.resolve(__dirname, 'icons'), to: 'src/icons' }
+        { from: path.resolve(__dirname, 'src/config.json'), to: 'config.json' },
+        { from: path.resolve(__dirname, 'manifest.json'), to: 'manifest.json' },
+        { from: path.resolve(__dirname, 'icons'), to: 'icons' }
       ]
     }),
     new HtmlWebpackPlugin({
