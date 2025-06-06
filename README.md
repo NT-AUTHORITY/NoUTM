@@ -12,8 +12,8 @@ A Chrome extension that automatically removes tracking parameters from URLs to p
 
 ## Installation
 
-### From Microsoft Edge Addons [NOT available]
-1. Visit the [Microsoft Edge Addons]()
+### From Microsoft Edge Addons
+1. Visit the [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/glpcokeknekmdalejnphkgkmagifidab)
 2. Click "Add to Edge"
 3. Confirm the installation
 
